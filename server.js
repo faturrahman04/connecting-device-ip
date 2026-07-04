@@ -40,14 +40,22 @@ app.post('/ping', (req, res) => {
             return res.status(400).json({
                 online: true,
                 success: true,
-                results: stderr
+                results: {
+                    message: `Failed request to ${ipAddress}, it may be happen because its device is offline`,
+                    stdout: stdout,
+                    stderr: stderr
+                }
             })
         }
 
         return res.status(200).json({
             online: true,
             success: true,
-            results: stdout
+            results: {
+                message: `Successfully request to IP ${ipAddress}`,
+                stdout: stdout,
+                stderr: stderr
+            }
         })
 
     })

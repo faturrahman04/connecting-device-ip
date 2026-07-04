@@ -4,6 +4,8 @@ import '../public/css/App.css'
 function App() {
 
   const [ipAddress, setIpAddress] = useState<string | null>(null)
+  const [isOnline, setIsOnline] = useState<boolean>(false)
+  const [message, setMessage] = useState<string | null>(null)
 
   const handleOnchange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     setIpAddress(ev.currentTarget.value)
@@ -23,14 +25,17 @@ function App() {
     })
 
     const data = await response.json()
-
     console.log(data)
+
+    setIsOnline(data.online)
+    setMessage(data.results.message)
   }
 
   return (
     <div className='container'>
       <div className='form-set-ip'>
         <h1>IP Address</h1>
+        <p className='response-ping' style={{color: isOnline ? 'green' : 'red'}}>{message}</p>
         <form action="">
           <input onChange={handleOnchange} type="text" id='ip-adress' name='ip-addressW' placeholder='2b:00:ff:0d:dd:00' />
           <button onClick={handleIpAddress}>Set IP Address</button>
